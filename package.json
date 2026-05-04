@@ -1,0 +1,299 @@
+{
+  "name": "localpilot",
+  "displayName": "LocalPilot",
+  "description": "Local Ollama-powered AI coding assistant for VS Code",
+  "version": "0.0.1",
+  "publisher": "localpilot",
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/localpilot/localpilot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/localpilot/localpilot/issues"
+  },
+  "homepage": "https://github.com/localpilot/localpilot#readme",
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=20.0.0"
+  },
+  "categories": [
+    "Machine Learning",
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "ollama",
+    "local ai",
+    "copilot",
+    "autocomplete",
+    "code assistant",
+    "offline ai"
+  ],
+  "activationEvents": [
+    "onCommand:localpilot.hello",
+    "onCommand:localpilot.explainSelection",
+    "onCommand:localpilot.explainError",
+    "onCommand:localpilot.addComments",
+    "onCommand:localpilot.fixCode",
+    "onCommand:localpilot.generateTests",
+    "onCommand:localpilot.solveProblem",
+    "onCommand:localpilot.checkOllamaStatus",
+    "onCommand:localpilot.selectLocalModel",
+    "onCommand:localpilot.switchInlineCompletionMode",
+    "onCommand:localpilot.openStatusMenu",
+    "onCommand:localpilot.runSetup",
+    "onCommand:localpilot.openChat",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact",
+    "onLanguage:python",
+    "onLanguage:java",
+    "onLanguage:c",
+    "onLanguage:cpp",
+    "onLanguage:csharp",
+    "onLanguage:go",
+    "onLanguage:rust",
+    "onLanguage:php"
+  ],
+  "main": "./out/src/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "localpilot.hello",
+        "title": "LocalPilot: Hello"
+      },
+      {
+        "command": "localpilot.explainSelection",
+        "title": "LocalPilot: Explain Selected Code"
+      },
+      {
+        "command": "localpilot.explainError",
+        "title": "LocalPilot: Explain Error"
+      },
+      {
+        "command": "localpilot.addComments",
+        "title": "LocalPilot: Add Comments to Selection"
+      },
+      {
+        "command": "localpilot.fixCode",
+        "title": "LocalPilot: Fix Selected Code"
+      },
+      {
+        "command": "localpilot.generateTests",
+        "title": "LocalPilot: Generate Tests"
+      },
+      {
+        "command": "localpilot.solveProblem",
+        "title": "LocalPilot: Solve Coding Problem"
+      },
+      {
+        "command": "localpilot.checkOllamaStatus",
+        "title": "LocalPilot: Check Ollama Status"
+      },
+      {
+        "command": "localpilot.selectLocalModel",
+        "title": "LocalPilot: Select Local Model"
+      },
+      {
+        "command": "localpilot.switchInlineCompletionMode",
+        "title": "LocalPilot: Switch Inline Completion Mode"
+      },
+      {
+        "command": "localpilot.openStatusMenu",
+        "title": "LocalPilot: Open Status Menu"
+      },
+      {
+        "command": "localpilot.openChat",
+        "title": "LocalPilot: Open Chat"
+      },
+      {
+        "command": "localpilot.runSetup",
+        "title": "LocalPilot: Run Setup"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "localpilot.explainSelection",
+          "when": "editorTextFocus && editorHasSelection",
+          "group": "localpilot@1"
+        },
+        {
+          "command": "localpilot.explainError",
+          "when": "editorTextFocus && editorHasSelection",
+          "group": "localpilot@1.5"
+        },
+        {
+          "command": "localpilot.addComments",
+          "when": "editorTextFocus && editorHasSelection",
+          "group": "localpilot@2"
+        },
+        {
+          "command": "localpilot.fixCode",
+          "when": "editorTextFocus && editorHasSelection",
+          "group": "localpilot@3"
+        },
+        {
+          "command": "localpilot.generateTests",
+          "when": "editorTextFocus && editorHasSelection",
+          "group": "localpilot@4"
+        },
+        {
+          "command": "localpilot.solveProblem",
+          "when": "editorTextFocus && editorHasSelection",
+          "group": "localpilot@5"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "localpilot.explainSelection",
+        "key": "ctrl+alt+e",
+        "mac": "cmd+alt+e",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "localpilot.fixCode",
+        "key": "ctrl+alt+f",
+        "mac": "cmd+alt+f",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "localpilot.generateTests",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "editorTextFocus && editorHasSelection"
+      }
+    ],
+    "configuration": {
+      "title": "LocalPilot",
+      "properties": {
+        "localpilot.ollamaHost": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "markdownDescription": "Local Ollama REST API host. LocalPilot only talks to this local endpoint."
+        },
+        "localpilot.inlineModel": {
+          "type": "string",
+          "default": "qwen2.5-coder:1.5b",
+          "markdownDescription": "Ollama model used for inline code suggestions."
+        },
+        "localpilot.chatModel": {
+          "type": "string",
+          "default": "qwen2.5-coder:7b",
+          "markdownDescription": "Ollama model used for chat and larger coding tasks."
+        },
+        "localpilot.lowRamModel": {
+          "type": "string",
+          "default": "qwen2.5-coder:0.5b",
+          "markdownDescription": "Smaller Ollama model preferred when LocalPilot is running in low-resource mode."
+        },
+        "localpilot.mode": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "micro",
+            "lite",
+            "standard",
+            "custom"
+          ],
+          "enumDescriptions": [
+            "Let LocalPilot choose conservative defaults based on the configured feature.",
+            "Use the smallest model and shortest contexts for very low-end machines.",
+            "Prefer low resource usage while keeping useful coding assistance.",
+            "Use the standard configured models and context limits.",
+            "Use the explicit model and generation settings configured by the user."
+          ],
+          "markdownDescription": "Resource and behavior profile for LocalPilot."
+        },
+        "localpilot.enableInlineSuggestions": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable Copilot-style inline suggestions once the inline provider is available."
+        },
+        "localpilot.inlineCompletionMode": {
+          "type": "string",
+          "default": "full",
+          "enum": [
+            "line",
+            "full"
+          ],
+          "enumDescriptions": [
+            "Suggest only the end of the current line or one next line.",
+            "Allow fuller multiline autocomplete suggestions."
+          ],
+          "markdownDescription": "Controls whether inline autocomplete returns one-line suggestions or Copilot-like fuller multiline suggestions."
+        },
+        "localpilot.maxContextLines": {
+          "type": "number",
+          "default": 80,
+          "minimum": 10,
+          "maximum": 400,
+          "markdownDescription": "Maximum nearby source lines LocalPilot may include when building prompts. Sensitive files and large generated folders are excluded."
+        },
+        "localpilot.maxOutputTokens": {
+          "type": "number",
+          "default": 160,
+          "minimum": 16,
+          "maximum": 1024,
+          "markdownDescription": "Maximum number of tokens requested from Ollama. Keep this low for safer inline suggestions on low-end machines."
+        },
+        "localpilot.temperature": {
+          "type": "number",
+          "default": 0.2,
+          "minimum": 0,
+          "maximum": 1,
+          "markdownDescription": "Generation temperature used for Ollama requests."
+        },
+        "localpilot.inlineDebounceMs": {
+          "type": "number",
+          "default": 250,
+          "minimum": 50,
+          "maximum": 2000,
+          "markdownDescription": "Delay in milliseconds before LocalPilot sends an inline completion request."
+        },
+        "localpilot.disableInlineForLargeFiles": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Disable inline suggestions for files at or above `localpilot.maxFileSizeKb`."
+        },
+        "localpilot.maxFileSizeKb": {
+          "type": "number",
+          "default": 500,
+          "minimum": 50,
+          "maximum": 500,
+          "markdownDescription": "Maximum file size in KB LocalPilot may inspect. Lower this for low-RAM machines."
+        },
+        "localpilot.enableLowRamWarnings": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show helpful warnings when LocalPilot avoids work to stay responsive on low-RAM machines."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint .",
+    "test": "npm run compile && vscode-test",
+    "package": "npm run compile && vsce package"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.0",
+    "@vscode/vsce": "^3.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.5.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}
