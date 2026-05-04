@@ -3,7 +3,7 @@
   "displayName": "LocalPilot",
   "description": "Local Ollama-powered AI coding assistant for VS Code",
   "version": "0.0.1",
-  "publisher": "localpilot",
+  "publisher": "YuvrajRaina",
   "license": "MIT",
   "icon": "resources/icon.png",
   "repository": {
